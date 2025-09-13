@@ -26,6 +26,9 @@ object rolando {
       inventario.items().forEach({item => itemsTotales.add(item)})
       return itemsTotales
     }
+    method cantidadItemsTotales(){
+      self.itemsEnTotal().size()
+    }
     method verItemsEnTotal(){
       return self.itemsEnTotal().map({item => item.nombre()})
     }
