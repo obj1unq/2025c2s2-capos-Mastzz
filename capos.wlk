@@ -1,8 +1,26 @@
 // Personaje
 object rolando {
     const property inventario = mochila
+    var property enCastillo = false
     method recolectar(artefacto){
         inventario.agregar(artefacto)
+    }
+    method guardar(){
+        if (self.enCastillo()){
+            castillo.guardarItems(inventario.items())
+            inventario.items().clear()
+        }
+    }
+    // method verStash(){
+    //     if (self.enCastillo()){
+            
+    //     }
+    // }
+    method entrarCastillo(){
+        enCastillo = true
+    }
+    method salirCastillo(){
+        enCastillo = false
     }
 }
 // Mochila
@@ -29,4 +47,15 @@ object libroDeHechizos {
 object collarDivino {
 }
 object armaduraDeAceroValyrio {
+}
+
+// Castillo
+object castillo {
+  const property stash = []
+  method guardarItems(items){
+    items.forEach({item => stash.add(item)})
+  }
+  method cantidadDeItems(){
+    return stash.size()
+  }
 }

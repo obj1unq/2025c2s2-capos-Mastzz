@@ -12,3 +12,9 @@ describe "Parte 1.1" {
     assert.notEquals(3, rolando.inventario().cantidadDeItems())
   }
 }
+
+describe "Parte 1.2" {
+  test "Rolando puede guardar items en el castillo de piedra" {
+    
+  }
+}
