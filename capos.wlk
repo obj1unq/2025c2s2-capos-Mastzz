@@ -72,6 +72,6 @@ object castillo {
     return stash.size()
   }
   method verStash(){
-    stash.map({item => item.nombre()})
+    return stash.map({item => item.nombre()})
   }
 }
