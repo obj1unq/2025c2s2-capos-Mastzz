@@ -3,7 +3,9 @@ object rolando {
     const property inventario = mochila
     var property enCastillo = false
     method recolectar(artefacto){
-        inventario.agregar(artefacto)
+        if (!self.enCastillo()){
+            inventario.agregar(artefacto)
+        }
     }
     method guardar(){
         if (self.enCastillo()){

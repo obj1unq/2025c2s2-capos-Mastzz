@@ -34,5 +34,17 @@ describe "Parte 1.2" {
     rolando.entrarCastillo()
     assert.that(rolando.enCastillo())
     rolando.guardar()
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(2, castillo.cantidadDeItems())
+    // no puede recolectar items en el castillo
+    rolando.recolectar(collarDivino)
+    assert.notEquals(1, rolando.inventario().cantidadDeItems())
+    // ahora si
+    rolando.salirCastillo()
+    rolando.recolectar(collarDivino)
+    rolando.entrarCastillo()
+    rolando.guardar()
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(3, castillo.cantidadDeItems())
   }
 }
