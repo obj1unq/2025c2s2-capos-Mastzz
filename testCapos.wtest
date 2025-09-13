@@ -26,6 +26,9 @@ describe "Parte 1.2" {
     rolando.recolectar(espadaDelDestino)
     rolando.recolectar(libroDeHechizos)
     assert.equals(2, rolando.inventario().cantidadDeItems())
+    // no puede recolectar mas (capacidad 2)
+    rolando.recolectar(collarDivino)
+    assert.notEquals(3, rolando.inventario().cantidadDeItems())
     // no puede guardar los items si no esta en el castillo
     assert.notThat(rolando.enCastillo())
     rolando.guardar()
