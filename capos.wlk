@@ -8,17 +8,23 @@ object rolando {
             inventario.agregar(artefacto)
         }
     }
-    method guardar(){
+    method guardarEnCastillo(){
         if (self.enCastillo()){
             castillo.guardarItems(inventario.items())
             inventario.borrarItems()
         }
     }
-    // method verStash(){
-    //     if (self.enCastillo()){
-            
-    //     }
-    // }
+    method itemsEnInventario(){
+      return inventario.verItems()
+    }
+    method itemsEnCastillo(){
+      return castillo.verStash()
+    }
+    method itemsEnTotal(){
+      const itemsTotales = castillo.stash()
+      inventario.items().forEach({item => itemsTotales.add(item)})
+      return itemsTotales.map({item => item.nombre()})
+    }
     method entrarCastillo(){
         enCastillo = true
     }

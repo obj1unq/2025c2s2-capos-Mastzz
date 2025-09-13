@@ -31,12 +31,12 @@ describe "Parte 1.2" {
     assert.notEquals(3, rolando.inventario().cantidadDeItems())
     // no puede guardar los items si no esta en el castillo
     assert.notThat(rolando.enCastillo())
-    rolando.guardar()
+    rolando.guardarEnCastillo()
     assert.notEquals(0, rolando.inventario().cantidadDeItems())
     // ahora si
     rolando.entrarCastillo()
     assert.that(rolando.enCastillo())
-    rolando.guardar()
+    rolando.guardarEnCastillo()
     assert.equals(0, rolando.inventario().cantidadDeItems())
     assert.equals(2, castillo.cantidadDeItems())
     // no puede recolectar items en el castillo
@@ -46,7 +46,7 @@ describe "Parte 1.2" {
     rolando.salirCastillo()
     rolando.recolectar(collarDivino)
     rolando.entrarCastillo()
-    rolando.guardar()
+    rolando.guardarEnCastillo()
     assert.equals(0, rolando.inventario().cantidadDeItems())
     assert.equals(3, castillo.cantidadDeItems())
   }
