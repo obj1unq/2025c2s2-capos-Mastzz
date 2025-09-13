@@ -14,23 +14,29 @@ object rolando {
             inventario.borrarItems()
         }
     }
-    method itemsEnInventario(){
+    method verItemsEnInventario(){
       return inventario.verItems()
     }
-    method itemsEnCastillo(){
+    method verItemsEnCastillo(){
       return castillo.verStash()
     }
     method itemsEnTotal(){
       const itemsTotales = #{}
       castillo.stash().forEach({item => itemsTotales.add(item)})
       inventario.items().forEach({item => itemsTotales.add(item)})
-      return itemsTotales.map({item => item.nombre()})
+      return itemsTotales
+    }
+    method verItemsEnTotal(){
+      return self.itemsEnTotal().map({item => item.nombre()})
     }
     method entrarCastillo(){
         enCastillo = true
     }
     method salirCastillo(){
         enCastillo = false
+    }
+    method tieneArtefacto(artefacto){
+
     }
 }
 // Mochila
