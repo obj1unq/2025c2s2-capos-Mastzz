@@ -21,7 +21,8 @@ object rolando {
       return castillo.verStash()
     }
     method itemsEnTotal(){
-      const itemsTotales = castillo.stash()
+      const itemsTotales = #{}
+      castillo.stash().forEach({item => itemsTotales.add(item)})
       inventario.items().forEach({item => itemsTotales.add(item)})
       return itemsTotales.map({item => item.nombre()})
     }
@@ -34,7 +35,7 @@ object rolando {
 }
 // Mochila
 object mochila {
-  var property capacidad = 0
+  var property capacidad = 2
   const property items = #{}
   method agregar(item) {
     if (self.puedoAgregar()){
