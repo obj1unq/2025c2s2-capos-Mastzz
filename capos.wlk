@@ -36,7 +36,7 @@ object rolando {
         enCastillo = false
     }
     method tieneArtefacto(artefacto){
-
+      return self.itemsEnTotal().any({item => item == artefacto})
     }
 }
 // Mochila
