@@ -1,6 +1,6 @@
 // Personaje
 object rolando {
-    const inventario = mochila
+    const property inventario = mochila
     method recolectar(artefacto){
         inventario.agregar(artefacto)
     }
@@ -12,7 +12,6 @@ object mochila {
   method agregar(item) {
     if (self.puedoAgregar()){
         items.add(item)
-        capacidad+=1
     }
   }
   method cantidadDeItems(){

@@ -1,0 +1,14 @@
+import capos.*
+describe "Parte 1.1" {
+  test "Rolando comienza pelado" {
+    assert.equals(0, rolando.inventario().capacidad())
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    rolando.inventario().capacidad(2)
+    assert.equals(2, rolando.inventario().capacidad())
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(libroDeHechizos)
+    assert.equals(2, rolando.inventario().cantidadDeItems())
+    rolando.recolectar(collarDivino)
+    assert.notEquals(3, rolando.inventario().cantidadDeItems())
+  }
+}
