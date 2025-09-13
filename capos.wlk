@@ -10,7 +10,7 @@ object rolando {
     method guardar(){
         if (self.enCastillo()){
             castillo.guardarItems(inventario.items())
-            inventario.items().clear()
+            inventario.borrarItems()
         }
     }
     // method verStash(){
@@ -28,11 +28,14 @@ object rolando {
 // Mochila
 object mochila {
   var property capacidad = 0
-  const property items = []
+  const property items = #{}
   method agregar(item) {
     if (self.puedoAgregar()){
         items.add(item)
     }
+  }
+  method borrarItems() {
+    items.clear()
   }
   method cantidadDeItems(){
     return items.size()
@@ -53,7 +56,7 @@ object armaduraDeAceroValyrio {
 
 // Castillo
 object castillo {
-  const property stash = []
+  const property stash = #{}
   method guardarItems(items){
     items.forEach({item => stash.add(item)})
   }
