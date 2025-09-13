@@ -14,7 +14,25 @@ describe "Parte 1.1" {
 }
 
 describe "Parte 1.2" {
-  test "Rolando puede guardar items en el castillo de piedra" {
-    
+  method initialize(){
+    rolando.inventario().capacidad(2)
+    rolando.enCastillo(false)
+  }
+  test "Castillo vacío y rolando sin items" {
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(0, castillo.cantidadDeItems())
+  }
+  test "Rolando recolecta 2 items y los guarda en el castillo" {
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(libroDeHechizos)
+    assert.equals(2, rolando.inventario().cantidadDeItems())
+    // no puede guardar los items si no esta en el castillo
+    assert.notThat(rolando.enCastillo())
+    rolando.guardar()
+    assert.notEquals(0, rolando.inventario().cantidadDeItems())
+    // ahora si
+    rolando.entrarCastillo()
+    assert.that(rolando.enCastillo())
+    rolando.guardar()
   }
 }
