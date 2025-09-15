@@ -18,10 +18,14 @@ object rolando {
         }
     }
     method poderDePelea(){
-      return poderBase + self.inventario().sum({item => item.poderArtefacto(self)})
+      return poderBase + inventario.poderTotalDeArtefactos(self)
     }
     method usarArtefactos(){
-      
+      inventario.actualizarUsos()
+    }
+    method batallar() {
+      self.usarArtefactos()
+      poderBase += 1
     }
     method verItemsEnInventario(){
       return inventario.verItems()
@@ -33,7 +37,7 @@ object rolando {
       return castillo.stash() + mochila.items()
     }
     method cantidadItemsTotales(){
-      self.itemsEnTotal().size()
+      return self.itemsEnTotal().size()
     }
     method verItemsEnTotal(){
       return self.itemsEnTotal().map({item => item.nombre()})
@@ -72,12 +76,21 @@ object mochila {
   method verItems(){
     return items.map({item => item.nombre()})
   }
+  method poderTotalDeArtefactos(personaje){
+    items.sum({item => item.poderArtefacto(personaje)})
+  }
+  method aumentarUso(item){
+    item.usos(item.usos() + 1)
+  }
+  method actualizarUsos(){
+    items.forEach({item => self.aumentarUso(item)})
+  }
 }
 // Items
 object espadaDelDestino {
   const property nombre = "Espada del Destino"
   var property usos = 0
-  method poderPelea(personaje){
+  method poderArtefacto(personaje){
     if (usos == 0){
       return personaje.poderBase()
     }
@@ -104,7 +117,10 @@ object collarDivino {
 }
 object armaduraDeAceroValyrio {
   const property nombre = "Armadura de acero Valyrio"
-
+  var property usos = 0
+  method poderArtefacto(personaje){
+    return 6
+  }
 }
 
 // Castillo
