@@ -2,8 +2,9 @@
 object rolando {
     const property inventario = mochila
     const property historial = []
+    var property hogar = castillo
+    var property poderBase = 0
     var property enCastillo = false
-    // La mayor parte gira en torno a la responsabilidad de la mochila, de igual forma hago que se pueda acceder desde rolando a cada cosa y luego delego a donde realmente está la responsabilidad
     method recolectar(artefacto){
         if (!self.enCastillo()){
             historial.add(artefacto)
@@ -12,7 +13,7 @@ object rolando {
     }
     method guardarEnCastillo(){
         if (self.enCastillo()){
-            castillo.guardarItems(inventario.items())
+            hogar.guardarItems(inventario.items())
             inventario.borrarItems()
         }
     }
@@ -69,12 +70,17 @@ object mochila {
 // Items
 object espadaDelDestino {
   const property nombre = "Espada del Destino"
+  var property usos = 0
+  
 }
 object libroDeHechizos {
   const property nombre = "Libro de Hechizos"
 }
 object collarDivino {
   const property nombre = "Collar Divino"
+  method poderArtefacto(personaje){
+    
+  }
 }
 object armaduraDeAceroValyrio {
   const property nombre = "Armadura de acero Valyrio"
@@ -82,12 +88,9 @@ object armaduraDeAceroValyrio {
 
 // Castillo
 object castillo {
-  var stash = #{}
-  method stash(){
-    return stash
-  }
+  const property stash = #{}
   method guardarItems(items){
-    stash += items
+    stash.addAll(items)
   }
   method cantidadDeItems(){
     return stash.size()
