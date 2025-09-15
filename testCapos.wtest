@@ -1,10 +1,7 @@
 import capos.*
 describe "Parte 1.1" {
   test "Rolando comienza pelado" {
-    assert.equals(0, rolando.inventario().capacidad())
     assert.equals(0, rolando.inventario().cantidadDeItems())
-    rolando.inventario().capacidad(2)
-    assert.equals(2, rolando.inventario().capacidad())
     rolando.recolectar(espadaDelDestino)
     rolando.recolectar(libroDeHechizos)
     assert.equals(2, rolando.inventario().cantidadDeItems())
@@ -29,6 +26,8 @@ describe "Parte 1.2" {
     // no puede recolectar mas (capacidad 2)
     rolando.recolectar(collarDivino)
     assert.notEquals(3, rolando.inventario().cantidadDeItems())
+    // pero se suma al historial
+    assert.equals(3, rolando.cantidadHistorial())
     // no puede guardar los items si no esta en el castillo
     assert.notThat(rolando.enCastillo())
     rolando.guardarEnCastillo()

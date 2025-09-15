@@ -1,10 +1,12 @@
 // Personaje
 object rolando {
     const property inventario = mochila
+    const property historial = []
     var property enCastillo = false
     // La mayor parte gira en torno a la responsabilidad de la mochila, de igual forma hago que se pueda acceder desde rolando a cada cosa y luego delego a donde realmente está la responsabilidad
     method recolectar(artefacto){
         if (!self.enCastillo()){
+            historial.add(artefacto)
             inventario.agregar(artefacto)
         }
     }
@@ -21,10 +23,7 @@ object rolando {
       return castillo.verStash()
     }
     method itemsEnTotal(){
-      const itemsTotales = #{}
-      castillo.stash().forEach({item => itemsTotales.add(item)})
-      inventario.items().forEach({item => itemsTotales.add(item)})
-      return itemsTotales
+      return castillo.stash() + mochila.items()
     }
     method cantidadItemsTotales(){
       self.itemsEnTotal().size()
@@ -39,7 +38,10 @@ object rolando {
         enCastillo = false
     }
     method tieneArtefacto(artefacto){
-      return self.itemsEnTotal().any({item => item == artefacto})
+      return self.itemsEnTotal().contains(artefacto)
+    }
+    method cantidadHistorial(){
+      return historial.size()
     }
 }
 // Mochila
@@ -80,9 +82,12 @@ object armaduraDeAceroValyrio {
 
 // Castillo
 object castillo {
-  const property stash = #{}
+  var stash = #{}
+  method stash(){
+    return stash
+  }
   method guardarItems(items){
-    items.forEach({item => stash.add(item)}) // nótese el bloque entiende "stash" (recuerda el contexto donde se definió) \\ además, como en la teoria del testing y el bloque anónimo, forEach probablemente en su implementación utilice un apply de nuestro lambda dado !!!
+    stash += items
   }
   method cantidadDeItems(){
     return stash.size()
