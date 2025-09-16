@@ -54,6 +54,9 @@ object rolando {
     method cantidadHistorial(){
       return historial.size()
     }
+    method poderMejorArtefactoDelHogar() {
+      return hogar.poderMejorArtefacto(self)
+    }
 }
 // Mochila
 object mochila {
@@ -101,6 +104,35 @@ object espadaDelDestino {
 }
 object libroDeHechizos {
   const property nombre = "Libro de Hechizos"
+  const property hechizos = [bendicion, invisibilidad, invocacion]
+  var property usos = 0
+
+  method poderPrimerHechizo(personaje) {
+    return hechizos.first().poderPelea(personaje)
+  }
+  method poderArtefacto(personaje){
+    if (usos > 0){
+      hechizos.remove(hechizos.first())
+    }
+    return if(hechizos.size() != 0) self.poderPrimerHechizo(personaje) else 0
+  }
+
+}
+// Hechizos
+object bendicion {
+  method poderPelea(personaje){
+    return 4
+  }
+}
+object invisibilidad {
+  method poderPelea(personaje) {
+    return personaje.poderBase()
+  }
+}
+object invocacion {
+  method poderPelea(personaje) {
+    return personaje.poderMejorArtefactoDelHogar()
+  }
 }
 object collarDivino {
   const property nombre = "Collar Divino"
@@ -134,5 +166,8 @@ object castillo {
   }
   method verStash(){
     return stash.map({item => item.nombre()})
+  }
+  method poderMejorArtefacto(personaje) {
+    return if(stash.size() != 0) stash.max({item => item.poderArtefacto(personaje)}) else 0
   }
 }
