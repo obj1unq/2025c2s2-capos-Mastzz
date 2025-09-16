@@ -104,7 +104,7 @@ object espadaDelDestino {
 }
 object libroDeHechizos {
   const property nombre = "Libro de Hechizos"
-  const property hechizos = [bendicion, invisibilidad, invocacion]
+  var property hechizos = []
   var property usos = 0
 
   method poderPrimerHechizo(personaje) {
@@ -157,7 +157,7 @@ object armaduraDeAceroValyrio {
 
 // Castillo
 object castillo {
-  const property stash = #{}
+  var property stash = #{}
   method guardarItems(items){
     stash.addAll(items)
   }
@@ -167,7 +167,10 @@ object castillo {
   method verStash(){
     return stash.map({item => item.nombre()})
   }
+  method mejorArtefacto(personaje){
+    return stash.max({item => item.poderArtefacto(personaje)})
+  }
   method poderMejorArtefacto(personaje) {
-    return if(stash.size() != 0) stash.max({item => item.poderArtefacto(personaje)}) else 0
+    return if(stash.size() != 0) self.mejorArtefacto(personaje).poderArtefacto(personaje) else 0
   }
 }

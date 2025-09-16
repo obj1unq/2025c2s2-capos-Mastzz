@@ -118,3 +118,24 @@ describe "Parte 2.1" {
     assert.equals(19, rolando.poderDePelea())
   }
 }
+
+describe "Parte 2.2" {
+  test "Libro de hechizos" {
+    rolando.poderBase(5)
+    rolando.recolectar(libroDeHechizos)
+    castillo.stash(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    libroDeHechizos.hechizos([bendicion, invisibilidad, invocacion])
+
+    assert.equals(4, libroDeHechizos.poderArtefacto(rolando))
+    assert.equals(bendicion, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(6, libroDeHechizos.poderArtefacto(rolando))
+    assert.equals(invisibilidad, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(7, libroDeHechizos.poderArtefacto(rolando))
+    // PREGUNTAR EN CLASE, EL TEST PASA PERO EN REPL LA REFERENCIA NO ES A INVOCACION ES A INVISIBILIDAD !!!
+    assert.equals(invocacion, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(0, libroDeHechizos.poderArtefacto(0))
+  }
+}
