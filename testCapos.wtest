@@ -108,4 +108,13 @@ describe "Parte 2.1" {
     assert.equals(6, armaduraDeAceroValyrio.poderArtefacto(rolando))
     assert.equals(6, collarDivino.poderArtefacto(rolando))
   }
+
+  test "Ejemplo de poder de pelea" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(armaduraDeAceroValyrio)
+    rolando.recolectar(collarDivino)
+    assert.equals(19, rolando.poderDePelea())
+  }
 }

@@ -77,7 +77,7 @@ object mochila {
     return items.map({item => item.nombre()})
   }
   method poderTotalDeArtefactos(personaje){
-    items.sum({item => item.poderArtefacto(personaje)})
+    return items.sum({item => item.poderArtefacto(personaje)})
   }
   method aumentarUso(item){
     item.usos(item.usos() + 1)
