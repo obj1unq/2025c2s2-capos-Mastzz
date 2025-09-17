@@ -87,23 +87,17 @@ object mochila {
 // Items
 object espadaDelDestino {
   const property nombre = "Espada del Destino"
-  var property usos = 0
+  var property usado = false
   method poderArtefacto(personaje){
-    if (usos == 0){
-      return personaje.poderBase()
-    }
-    else{
-      return personaje.poderBase() / 2
-    }
+    return if(!usado) personaje.poderBase() else personaje.poderBase() / 2
   }
   method usarArtefacto(){
-    usos += 1
+    usado = true
   }
 }
 object libroDeHechizos {
   const property nombre = "Libro de Hechizos"
   var property hechizos = []
-  var property usos = 0
 
   method poderPrimerHechizo(personaje) {
     return hechizos.first().poderPelea(personaje)
@@ -112,7 +106,6 @@ object libroDeHechizos {
     return if(hechizos.size() != 0) self.poderPrimerHechizo(personaje) else 0
   }
   method usarArtefacto(){
-    usos += 1
     hechizos.remove(hechizos.first())
   }
 
@@ -177,3 +170,4 @@ object castillo {
     return if(stash.size() != 0) self.mejorArtefacto(personaje).poderArtefacto(personaje) else 0
   }
 }
+
