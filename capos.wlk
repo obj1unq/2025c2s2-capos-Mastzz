@@ -20,11 +20,8 @@ object rolando {
     method poderDePelea(){
       return poderBase + inventario.poderTotalDeArtefactos(self)
     }
-    method usarArtefactos(){
-      inventario.actualizarUsos()
-    }
     method batallar() {
-      self.usarArtefactos()
+      inventario.usarArtefactos()
       poderBase += 1
     }
     method verItemsEnInventario(){
@@ -82,12 +79,10 @@ object mochila {
   method poderTotalDeArtefactos(personaje){
     return items.sum({item => item.poderArtefacto(personaje)})
   }
-  method aumentarUso(item){
-    item.usos(item.usos() + 1)
+  method usarArtefactos(){
+    items.forEach({item => item.usarArtefacto()})
   }
-  method actualizarUsos(){
-    items.forEach({item => self.aumentarUso(item)})
-  }
+  
 }
 // Items
 object espadaDelDestino {
@@ -101,6 +96,9 @@ object espadaDelDestino {
       return personaje.poderBase() / 2
     }
   }
+  method usarArtefacto(){
+    usos += 1
+  }
 }
 object libroDeHechizos {
   const property nombre = "Libro de Hechizos"
@@ -111,10 +109,11 @@ object libroDeHechizos {
     return hechizos.first().poderPelea(personaje)
   }
   method poderArtefacto(personaje){
-    if (usos > 0){
-      hechizos.remove(hechizos.first())
-    }
     return if(hechizos.size() != 0) self.poderPrimerHechizo(personaje) else 0
+  }
+  method usarArtefacto(){
+    usos += 1
+    hechizos.remove(hechizos.first())
   }
 
 }
@@ -146,12 +145,16 @@ object collarDivino {
       return poderCollar
     }
   }
+  method usarArtefacto(){
+    usos += 1
+  }
 }
 object armaduraDeAceroValyrio {
   const property nombre = "Armadura de acero Valyrio"
-  var property usos = 0
   method poderArtefacto(personaje){
     return 6
+  }
+  method usarArtefacto(){
   }
 }
 
