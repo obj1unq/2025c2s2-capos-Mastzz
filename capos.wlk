@@ -1,4 +1,5 @@
-// Personaje
+// Personajes
+// RONALDOOOO SIUUUUUU
 object rolando {
     const property inventario = mochila
     const property historial = []
@@ -16,6 +17,9 @@ object rolando {
             hogar.guardarItems(inventario.items())
             inventario.borrarItems()
         }
+    }
+    method cualesPuedeVencer(tierra){
+      return tierra.cualesPuedeVencer(self)
     }
     method poderDePelea(){
       return poderBase + inventario.poderTotalDeArtefactos(self)
@@ -84,6 +88,30 @@ object mochila {
   }
   
 }
+// CATERINAAAAA
+object caterina {
+  var property poderBase = 28
+  var property hogar = fortalezaAcero
+  method poderDePelea(){
+    return poderBase
+  }
+}
+// ARCHIBALDOOOOO
+object archibaldo {
+  var property poderBase = 16
+  var property hogar = palacioMarmol
+  method poderDePelea(){
+    return poderBase
+  }
+}
+// ASTRAAAAAAAAAA
+object astra {
+  var property poderBase = 14
+  var property hogar = torreMarfil
+  method poderDePelea(){
+    return poderBase
+  }
+}
 // Items
 object espadaDelDestino {
   const property nombre = "Espada del Destino"
@@ -151,7 +179,7 @@ object armaduraDeAceroValyrio {
   }
 }
 
-// Castillo
+// Hogares
 object castillo {
   var property stash = #{}
   method guardarItems(items){
@@ -171,3 +199,22 @@ object castillo {
   }
 }
 
+object fortalezaAcero {
+  
+}
+object palacioMarmol {
+  
+}
+object torreMarfil{
+
+}
+// Tierra de erethia
+object erethia {
+  const property enemigos = #{caterina, archibaldo, astra}
+  method cualesPuedeVencer(personaje){
+    return enemigos.filter({enemigo => self.puedeVencerlo(personaje, enemigo) })
+  }
+  method puedeVencerlo(personaje, enemigo){
+    return personaje.poderDePelea() >= enemigo.poderDePelea()
+  }
+}
