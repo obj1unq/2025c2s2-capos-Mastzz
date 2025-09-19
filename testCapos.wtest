@@ -1,3 +1,4 @@
+import wollok.mirror.*
 import capos.*
 describe "Parte 1.1" {
   test "Rolando comienza pelado" {
@@ -133,9 +134,19 @@ describe "Parte 2.2" {
     assert.equals(invisibilidad, libroDeHechizos.hechizos().first())
     rolando.batallar()
     assert.equals(7, libroDeHechizos.poderArtefacto(rolando))
-    // PREGUNTAR EN CLASE, EL TEST PASA PERO EN REPL LA REFERENCIA NO ES A INVOCACION ES A INVISIBILIDAD !!!
     assert.equals(invocacion, libroDeHechizos.hechizos().first())
     rolando.batallar()
     assert.equals(0, libroDeHechizos.poderArtefacto(0))
+  }
+}
+
+describe "Parte 2.3: Enemigos" {
+  test "Venciendo enemigos" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.equals(19, rolando.poderDePelea())
+    assert.equals(#{archibaldo, astra}, rolando.cualesPuedeVencer(erethia))
+    assert.equals(#{palacioMarmol, torreMarfil}, rolando.queMoradasConquista(erethia))
   }
 }

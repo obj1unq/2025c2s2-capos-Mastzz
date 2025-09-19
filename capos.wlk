@@ -21,6 +21,9 @@ object rolando {
     method cualesPuedeVencer(tierra){
       return tierra.cualesPuedeVencer(self)
     }
+    method queMoradasConquista(tierra) {
+      return tierra.queMoradasConquista(self)
+    }
     method poderDePelea(){
       return poderBase + inventario.poderTotalDeArtefactos(self)
     }
@@ -62,7 +65,7 @@ object rolando {
 // Mochila
 object mochila {
   var property capacidad = 2
-  const property items = #{}
+  var property items = #{}
   method agregar(item) {
     if (self.puedoAgregar()){
         items.add(item)
@@ -215,6 +218,9 @@ object erethia {
     return enemigos.filter({enemigo => self.puedeVencerlo(personaje, enemigo) })
   }
   method puedeVencerlo(personaje, enemigo){
-    return personaje.poderDePelea() >= enemigo.poderDePelea()
+    return personaje.poderDePelea() > enemigo.poderDePelea()
+  }
+  method queMoradasConquista(personaje) {
+    return self.cualesPuedeVencer(personaje).map({enemigo => enemigo.hogar()}).asSet()
   }
 }
