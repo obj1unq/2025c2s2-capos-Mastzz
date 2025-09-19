@@ -1,0 +1,172 @@
+import wollok.mirror.*
+import capos.*
+describe "Parte 1.1" {
+  test "Rolando comienza pelado" {
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(libroDeHechizos)
+    assert.equals(2, rolando.inventario().cantidadDeItems())
+    rolando.recolectar(collarDivino)
+    assert.notEquals(3, rolando.inventario().cantidadDeItems())
+  }
+}
+
+describe "Parte 1.2" {
+  method initialize(){
+    rolando.inventario().capacidad(2)
+    rolando.enCastillo(false)
+  }
+  test "Castillo vacío y rolando sin items" {
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(0, castillo.cantidadDeItems())
+  }
+  test "Rolando recolecta 2 items y los guarda en el castillo" {
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(libroDeHechizos)
+    assert.equals(2, rolando.inventario().cantidadDeItems())
+    // no puede recolectar mas (capacidad 2)
+    rolando.recolectar(collarDivino)
+    assert.notEquals(3, rolando.inventario().cantidadDeItems())
+    // pero se suma al historial
+    assert.equals(3, rolando.cantidadHistorial())
+    // no puede guardar los items si no esta en el castillo
+    assert.notThat(rolando.enCastillo())
+    rolando.guardarEnCastillo()
+    assert.notEquals(0, rolando.inventario().cantidadDeItems())
+    // ahora si
+    rolando.entrarCastillo()
+    assert.that(rolando.enCastillo())
+    rolando.guardarEnCastillo()
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(2, castillo.cantidadDeItems())
+    // no puede recolectar items en el castillo
+    rolando.recolectar(collarDivino)
+    assert.notEquals(1, rolando.inventario().cantidadDeItems())
+    // ahora si
+    rolando.salirCastillo()
+    rolando.recolectar(collarDivino)
+    rolando.entrarCastillo()
+    rolando.guardarEnCastillo()
+    assert.equals(0, rolando.inventario().cantidadDeItems())
+    assert.equals(3, castillo.cantidadDeItems())
+  }
+}
+
+describe "Parte 1.3" {
+  test "Que artefactos tiene ronaldo en general y si posee uno en particular" {
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(libroDeHechizos)
+    assert.equals(2, mochila.cantidadDeItems())
+    assert.equals(2, rolando.cantidadItemsTotales())
+    assert.equals(0, castillo.cantidadDeItems())
+
+    rolando.entrarCastillo()
+    rolando.guardarEnCastillo()
+    assert.equals(0, mochila.cantidadDeItems())
+    assert.equals(2, rolando.cantidadItemsTotales())
+    assert.equals(2, castillo.cantidadDeItems())
+
+    rolando.salirCastillo()
+    rolando.recolectar(collarDivino)
+
+    assert.equals(1, mochila.cantidadDeItems())
+    assert.equals(2, castillo.cantidadDeItems())
+    assert.equals(3, rolando.cantidadItemsTotales())
+  }
+}
+// Parte 1.4 salteada (pereza de hacer)
+describe "Parte 2.1" {
+  test "Batallas" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(armaduraDeAceroValyrio)
+    rolando.recolectar(collarDivino)
+
+    assert.equals(5, rolando.poderBase())
+    assert.equals(5, espadaDelDestino.poderArtefacto(rolando))
+    assert.equals(6, armaduraDeAceroValyrio.poderArtefacto(rolando))
+    assert.equals(3, collarDivino.poderArtefacto(rolando))
+
+    rolando.batallar()
+    
+    assert.equals(6, rolando.poderBase())
+    assert.equals(3, espadaDelDestino.poderArtefacto(rolando))
+    assert.equals(6, armaduraDeAceroValyrio.poderArtefacto(rolando))
+    assert.equals(3, collarDivino.poderArtefacto(rolando))
+
+    rolando.batallar()
+
+    assert.equals(7, rolando.poderBase())
+    assert.equals(3.5, espadaDelDestino.poderArtefacto(rolando))
+    assert.equals(6, armaduraDeAceroValyrio.poderArtefacto(rolando))
+    assert.equals(5, collarDivino.poderArtefacto(rolando))
+
+    rolando.batallar()
+
+    assert.equals(8, rolando.poderBase())
+    assert.equals(4, espadaDelDestino.poderArtefacto(rolando))
+    assert.equals(6, armaduraDeAceroValyrio.poderArtefacto(rolando))
+    assert.equals(6, collarDivino.poderArtefacto(rolando))
+  }
+
+  test "Ejemplo de poder de pelea" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    rolando.recolectar(espadaDelDestino)
+    rolando.recolectar(armaduraDeAceroValyrio)
+    rolando.recolectar(collarDivino)
+    assert.equals(19, rolando.poderDePelea())
+  }
+}
+
+describe "Parte 2.2" {
+  test "Libro de hechizos" {
+    rolando.poderBase(5)
+    rolando.recolectar(libroDeHechizos)
+    castillo.stash(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    libroDeHechizos.hechizos([bendicion, invisibilidad, invocacion])
+
+    assert.equals(4, libroDeHechizos.poderArtefacto(rolando))
+    assert.equals(bendicion, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(6, libroDeHechizos.poderArtefacto(rolando))
+    assert.equals(invisibilidad, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(7, libroDeHechizos.poderArtefacto(rolando))
+    assert.equals(invocacion, libroDeHechizos.hechizos().first())
+    rolando.batallar()
+    assert.equals(0, libroDeHechizos.poderArtefacto(0))
+  }
+}
+
+describe "Parte 2.3: Enemigos" {
+  test "Venciendo enemigos" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.equals(19, rolando.poderDePelea())
+    assert.equals(#{archibaldo, astra}, rolando.cualesPuedeVencer(erethia))
+    assert.equals(#{palacioMarmol, torreMarfil}, rolando.queMoradasConquista(erethia))
+  }
+}
+
+describe "Parte 2.4: Poderoso" {
+  test "Rolando no es poderoso con 5 de poder base y sí lo es con 10" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.notThat(erethia.esPoderoso(rolando))
+    rolando.poderBase(10)
+    assert.that(erethia.esPoderoso(rolando))
+  }
+}
+describe "Parte 2.5: Artefacto fatal" {
+  test "Rolando tiene 15 poder de base. En su inventario la espada, armadura y el collar. Tiene la espada como artefacto fatal contra Astra, pero ninguno contra Caterina" {
+    rolando.poderBase(15)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.equals(espadaDelDestino, rolando.tieneArtefactoFatal(astra))
+    assert.equals(null, rolando.tieneArtefactoFatal(caterina))
+  }
+}
