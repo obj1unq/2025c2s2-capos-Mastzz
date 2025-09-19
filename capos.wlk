@@ -61,6 +61,9 @@ object rolando {
     method poderMejorArtefactoDelHogar() {
       return hogar.poderMejorArtefacto(self)
     }
+    method tieneArtefactoFatal(enemigo){
+      return inventario.hayArtefactoFatal(self, enemigo)
+    }
 }
 // Mochila
 object mochila {
@@ -88,6 +91,12 @@ object mochila {
   }
   method usarArtefactos(){
     items.forEach({item => item.usarArtefacto()})
+  }
+  method esPoderMayor(item, personaje, enemigo) {
+    return item.poderArtefacto(personaje) > enemigo.poderDePelea()
+  }
+  method hayArtefactoFatal(personaje, enemigo){
+    return items.findOrDefault({item => self.esPoderMayor(item, personaje, enemigo)}, null)
   }
   
 }
@@ -220,6 +229,7 @@ object erethia {
   method puedeVencerlo(personaje, enemigo){
     return personaje.poderDePelea() > enemigo.poderDePelea()
   }
+  // Cuidado que map devuelve una lista (conversión implícita en este caso que lo utilizo sobre un set) por lo que le envío el mensaje 'asSet'
   method queMoradasConquista(personaje) {
     return self.cualesPuedeVencer(personaje).map({enemigo => enemigo.hogar()}).asSet()
   }
@@ -227,3 +237,4 @@ object erethia {
     return enemigos == self.cualesPuedeVencer(personaje)
   }
 }
+

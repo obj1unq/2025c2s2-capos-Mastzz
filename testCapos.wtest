@@ -161,3 +161,12 @@ describe "Parte 2.4: Poderoso" {
     assert.that(erethia.esPoderoso(rolando))
   }
 }
+describe "Parte 2.5: Artefacto fatal" {
+  test "Rolando tiene 15 poder de base. En su inventario la espada, armadura y el collar. Tiene la espada como artefacto fatal contra Astra, pero ninguno contra Caterina" {
+    rolando.poderBase(15)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.equals(espadaDelDestino, rolando.tieneArtefactoFatal(astra))
+    assert.equals(null, rolando.tieneArtefactoFatal(caterina))
+  }
+}
