@@ -150,3 +150,14 @@ describe "Parte 2.3: Enemigos" {
     assert.equals(#{palacioMarmol, torreMarfil}, rolando.queMoradasConquista(erethia))
   }
 }
+
+describe "Parte 2.4: Poderoso" {
+  test "Rolando no es poderoso con 5 de poder base y sí lo es con 10" {
+    rolando.poderBase(5)
+    rolando.inventario().capacidad(3)
+    mochila.items(#{espadaDelDestino, armaduraDeAceroValyrio, collarDivino})
+    assert.notThat(erethia.esPoderoso(rolando))
+    rolando.poderBase(10)
+    assert.that(erethia.esPoderoso(rolando))
+  }
+}

@@ -223,4 +223,7 @@ object erethia {
   method queMoradasConquista(personaje) {
     return self.cualesPuedeVencer(personaje).map({enemigo => enemigo.hogar()}).asSet()
   }
+  method esPoderoso(personaje) {
+    return enemigos == self.cualesPuedeVencer(personaje)
+  }
 }
